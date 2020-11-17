@@ -40,6 +40,11 @@
             bottom: 10px;
         }
 
+        .credits {
+            bottom: 1rem;
+            position: absolute;
+            right: 1rem;
+        }
     </style>
     <title>wallpaper</title>
 </head>
@@ -50,19 +55,34 @@
             <img id="background-img"
                 src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD//gATQ3JlYXRlZCB3aXRoIEdJTVD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wgARCAABAAEDAREAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAAAv/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAASf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/AX//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/AX//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAY/An//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/IX//2gAMAwEAAgADAAAAEB//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/EH//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/EH//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/EH//2Q==">
         </div>
+        <div class="credits">
+            <a id="link" href="">Image</a> by <a href="https://unsplash.com">Unsplash</a>
+        </div>
     </div>
     <script>
-        function backgroundimg() {
-            var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-            var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            var collection = "1474015";
+        var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        var collection = "1474015";
+        var background_img = document.getElementById("background-img")
+        var link = document.getElementById("link")
 
-            var imagesrc = "https://source.unsplash.com/collection/" + collection + "/" + w + "x" + h + "/daily.jpg";
-            document.getElementById("background-img").src = imagesrc;
-        }
+        var imagesrc = "https://source.unsplash.com/collection/" + collection + "/" + w + "x" + h;
+        var imagesrc = "https://source.unsplash.com/" + "user/pawel_czerwinski" + "/" + w + "x" + h + "/daily.jpg";
 
+        var redirectedUrl
 
-        backgroundimg();
+        fetch(imagesrc)
+            .then(resp => {
+                redirectedUrl = resp.url
+                let UrlObject = new URL(redirectedUrl)
+                url_withoutSearch = UrlObject.origin + UrlObject.pathname
+                link.href = url_withoutSearch
+
+                return resp.arrayBuffer()
+            })
+            .then(arrayBuffer => {
+                background_img.src = URL.createObjectURL(new Blob([arrayBuffer], { type: 'image/jpeg' }));
+            })
 
 
     </script>
