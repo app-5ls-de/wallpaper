@@ -62,12 +62,22 @@
     <script>
         var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        var collection = "1474015";
         var background_img = document.getElementById("background-img")
         var link = document.getElementById("link")
+        var imagesrc = "https://source.unsplash.com"
 
-        var imagesrc = "https://source.unsplash.com/collection/" + collection + "/" + w + "x" + h;
-        var imagesrc = "https://source.unsplash.com/" + "user/pawel_czerwinski" + "/" + w + "x" + h + "/daily.jpg";
+        var path = location.pathname.substring(1).split("/")[0]
+
+        if (path.startsWith("@")) {
+            imagesrc += "/user/" + path.substring(1)
+
+        } else {
+            imagesrc += "/collection/" + path
+
+        }
+        imagesrc +=  "/" + w + "x" + h + "/daily.jpg";
+
+
 
         var redirectedUrl
 
